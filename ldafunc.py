@@ -122,7 +122,7 @@ def runlda(rawdata):
         return model_list, coherence_values
 
     # Can take a long time to run.
-    limit=5; start=3; step=1;
+    limit=5; start=4; step=1;
     model_list, coherence_values = compute_coherence_values(dictionary=id2word,
                                                             corpus=corpus,
                                                             texts=data_lemmatized,
