@@ -92,7 +92,7 @@ def runlda(rawdata):
 
     cwd = os.getcwd()
     mallet_path = cwd + '/mallet-2.0.8/bin/mallet' # update this path
-    ldamallet = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=10, id2word=id2word)
+    ldamallet = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=4, id2word=id2word)
     
     def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
         """
@@ -122,24 +122,25 @@ def runlda(rawdata):
         return model_list, coherence_values
 
     # Can take a long time to run.
-    limit=5; start=4; step=1;
-    model_list, coherence_values = compute_coherence_values(dictionary=id2word,
-                                                            corpus=corpus,
-                                                            texts=data_lemmatized,
-                                                            start=start,
-                                                            limit=limit,
-                                                            step=step)
+    # limit=5; start=4; step=1
+    # model_list, coherence_values = compute_coherence_values(dictionary=id2word,
+    #                                                         corpus=corpus,
+    #                                                         texts=data_lemmatized,
+    #                                                         start=start,
+    #                                                         limit=limit,
+    #                                                         step=step)
     
-    # Print the coherence scores
-    x = range(start, limit, step)
-    for m, cv in zip(x, coherence_values):
-        print("Num Topics =", m, " has Coherence Value of", round(cv, 6))
+    # # Print the coherence scores
+    # x = range(start, limit, step)
+    # for m, cv in zip(x, coherence_values):
+    #     print("Num Topics =", m, " has Coherence Value of", round(cv, 6))
     
-    # Select the model and print the topics
-    index, value = max(enumerate(coherence_values), key=operator.itemgetter(1))
-    print(index)
-    optimal_model = model_list[index]
-    model_topics = optimal_model.show_topics(num_topics=1000, formatted=False)
+    # # Select the model and print the topics
+    # index, value = max(enumerate(coherence_values), key=operator.itemgetter(1))
+    # print(index)
+    # optimal_model = model_list[index]
+    optimal_model = ldamallet
+    # model_topics = optimal_model.show_topics(num_topics=1000, formatted=False)
 
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
